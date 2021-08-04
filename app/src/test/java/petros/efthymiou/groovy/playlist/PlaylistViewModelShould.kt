@@ -12,6 +12,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import petros.efthymiou.groovy.utils.BaseUnitTest
 import petros.efthymiou.groovy.utils.getValueForTest
+import java.lang.RuntimeException
 
 @ExperimentalCoroutinesApi
 class PlaylistViewModelShould : BaseUnitTest() {
@@ -19,6 +20,7 @@ class PlaylistViewModelShould : BaseUnitTest() {
     private val repository: PlaylistRepository = mock()
     private val playlists = mock<List<Playlist>>()
     private val expected = Result.success(playlists)
+    private val exception = RuntimeException("Something went wrong")
 
     @Test
     fun getPlaylistFromRepository() = runBlockingTest {
@@ -31,6 +33,20 @@ class PlaylistViewModelShould : BaseUnitTest() {
     fun emitsPlaylistsFromRepository() = runBlockingTest {
         val viewModel = mockSuccessfulCase()
         assertEquals(expected, viewModel.playlists.getValueForTest())
+    }
+
+    @Test
+    fun emitsErrorWhenReceiveError() {
+        runBlocking {
+            whenever(repository.getPlaylists()).thenReturn(
+                flow {
+                    emit(Result.failure<List<Playlist>>(exception))
+                }
+            )
+        }
+        val viewModel = PlaylistViewModel(repository)
+
+        assertEquals(exception, viewModel.playlists.getValueForTest()!!.exceptionOrNull())
     }
 
     private fun mockSuccessfulCase(): PlaylistViewModel {
