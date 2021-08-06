@@ -9,6 +9,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import petros.efthymiou.groovy.playlist.models.PlaylistRaw
 import petros.efthymiou.groovy.utils.BaseUnitTest
 import java.lang.RuntimeException
 
@@ -18,7 +19,7 @@ class PlaylistServiceShould : BaseUnitTest() {
     private lateinit var service: PlaylistService
     private val api: PlaylistAPI = mock()
 
-    private val playlists: List<Playlist> = mock()
+    private val playlists: List<PlaylistRaw> = mock()
     private val exception = "Something went wrong"
 
     @Test

@@ -3,8 +3,8 @@ package petros.efthymiou.groovy.playlist
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import petros.efthymiou.groovy.R
 import petros.efthymiou.groovy.databinding.PlaylistItemBinding
+import petros.efthymiou.groovy.playlist.models.Playlist
 
 class PlaylistAdapter(
     private val values: List<Playlist>
@@ -24,7 +24,7 @@ class PlaylistAdapter(
         with(holder) {
             playlistName.text = item.name
             playlistCategory.text = item.category
-            playlistImage.setImageResource(R.mipmap.playlist)
+            playlistImage.setImageResource(item.image)
         }
     }
 
